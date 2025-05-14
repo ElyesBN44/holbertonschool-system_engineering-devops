@@ -1,0 +1,90 @@
+Scale Up – Split Components with Redundant Load Balancer
+🎯 Objective
+Design a scalable and modular infrastructure with:
+
+One additional server
+
+Two HAProxy load balancers in a cluster
+
+Separate servers for:
+
+Web server (Nginx)
+
+Application server
+
+Database server (MySQL)
+
+📌 Diagram Summary (Whiteboard Layout)
+
+                      User
+                       |
+                  www.foobar.com
+                       |
+                +---------------+
+                |  HAProxy LB1  |  ← Load balancer cluster (Active-Active)
+                |  HAProxy LB2  |  
+                +---------------+
+                     |     |
+              Round-robin / Health checks
+                 |            |
+           +-------------+ +-------------+
+           |  Web Server | |  Web Server |
+           |   (Nginx)   | |   (Nginx)   |
+           +-------------+ +-------------+
+                 |              |
+             Sends requests to App Servers
+                 |              |
+           +---------------+ +---------------+
+           | App Server A  | | App Server B  |
+           | (Your code)   | | (Your code)   |
+           +---------------+ +---------------+
+                        |
+              Connects to Database Server
+                        |
+                 +---------------+
+                 |   MySQL DB    |
+                 | (Primary Node)|
+                 +---------------+
+🧾 Key Concepts
+🔹 Application Server vs Web Server
+Web Server (Nginx):
+
+Handles HTTP requests.
+
+Serves static files (HTML, CSS, JS).
+
+Forwards dynamic requests to the application server.
+
+Application Server:
+
+Runs backend code (e.g., Python, Node.js).
+
+Handles business logic.
+
+Communicates with the database.
+
+🔹 Why Add:
+Extra Server: Increases fault tolerance and capacity.
+
+Load Balancer Cluster: Redundancy (HAProxy1 + HAProxy2 = no SPOF).
+
+Split Components:
+
+Isolates resources and responsibilities.
+
+Easier to scale each layer independently.
+
+Enhances performance and security.
+
+🔹 HAProxy Cluster Setup:
+Cluster Mode: Active-Active (both LBs can handle requests).
+
+Why: Eliminates SPOF and improves load distribution.
+
+Distribution Algorithm: Round-robin or least connections.
+
+⚠️ Remaining Infrastructure Issues
+Still needs:
+
+HTTPS for secure traffic.
+

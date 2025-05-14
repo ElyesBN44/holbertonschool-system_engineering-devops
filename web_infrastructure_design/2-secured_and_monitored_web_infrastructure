@@ -1,0 +1,40 @@
+Secured and Monitored Infrastructure
+Goal: Extend the distributed setup with security and monitoring.
+
+📌 Diagram Summary:
+User → HTTPS → www.foobar.com
+            |
+        [HAProxy + SSL]
+        |    Firewall
+        v
+  [Monitoring Agent]
+       /     \
+     /         \
+[Server A]   [Server B]
+Firewall     Firewall
+Nginx        Nginx
+App Srv      App Srv
+App Code     App Code
+MySQL Prim   MySQL Replica
+Monitor      Monitor
+🧾 Key Concepts:
+Firewalls (3): Block unauthorized access.
+
+SSL (HTTPS): Encrypts all web traffic.
+
+Monitoring Agents: Collect metrics, logs (QPS, CPU).
+
+Tool: Sumologic, Prometheus, etc.
+
+Use: Detect traffic spikes, errors.
+
+📊 Monitor Web QPS:
+Monitor Nginx logs or expose metrics via Prometheus.
+
+⚠️ Issues:
+SSL Termination at LB: Internal traffic not encrypted.
+
+Single DB Write Node: If primary fails, write operations break.
+
+All-in-One Servers: Web/App/DB on same servers can cause resource contention and poor scaling.
+

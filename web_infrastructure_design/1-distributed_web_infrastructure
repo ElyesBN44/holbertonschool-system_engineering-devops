@@ -1,0 +1,38 @@
+Distributed Web Infrastructure
+Goal: Use 3 servers for scalability with HAProxy, Nginx, MySQL.
+
+📌 Diagram Summary:
+User → www.foobar.com
+        |
+     [HAProxy LB]
+        |
+     Round-robin
+       /    \
+      v      v
+[Server A] [Server B]
+- Nginx     - Nginx
+- App Srv   - App Srv
+- App Code  - App Code
+- MySQL     - MySQL Replica
+🧾 Key Concepts:
+Load Balancer (HAProxy): Distributes traffic.
+
+Algorithm: Round-robin (even traffic sharing).
+
+Setup: Active-Active (both servers handle traffic).
+
+Primary-Replica DB:
+
+Primary (writes), Replica (reads only).
+
+Replication = automatic sync from primary to replica.
+
+Application View: Connects to primary for writes, replica for reads.
+
+⚠️ Issues:
+SPOF: HAProxy is a single point of failure.
+
+Security: No firewalls, no HTTPS.
+
+No Monitoring: Can’t detect failures or load.
+
